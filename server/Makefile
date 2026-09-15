@@ -36,6 +36,7 @@ rm:
 	-docker rm -f $(CONTAINER_NAME)
 
 create-certs:
+	mkdir -p certs;
 	openssl req \
 		-x509 \
 		-newkey rsa:2048 \
