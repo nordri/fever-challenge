@@ -1,0 +1,32 @@
+# Generated TLS certificates
+server/certs/*.crt
+server/certs/*.key
+client/certs/*.crt
+client/certs/*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Environment files
+.env
+.env.*
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+
+# Temporary files
+*.tmp
+*.log
+
