@@ -9,6 +9,8 @@ CLIENT_IMAGE="fever-client:0.1.0"
 SERVER_IMAGE_TAR="/tmp/fever-server.tar"
 CLIENT_IMAGE_TAR="/tmp/fever-client.tar"
 
+SECRET="server-tls"
+
 echo "==> Generating server certificates"
 make -C server create-certs
 
