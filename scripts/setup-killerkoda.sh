@@ -34,6 +34,15 @@ ctr -n k8s.io images import "${CLIENT_IMAGE_TAR}"
 echo "==> Verifying Kubernetes images"
 ctr -n k8s.io images list | grep -E 'fever-(server|client)'
 
+echo "==> Deploying Ingress Controller"
+kubectl apply -f kubernetes/ingress-nginx/controller.yaml
+kubectl rollout status deployment/ingress-nginx-controller \
+  -n ingress-nginx \
+  --timeout=120s
+
+echo "==> Updating CoreDNS Configmap"
+kubectl apply -f kubernetes/coredns-configmap.yaml
+
 echo "==> Creating namespace"
 kubectl create namespace "${NAMESPACE}" \
     --dry-run=client \
