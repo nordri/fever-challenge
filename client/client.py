@@ -16,12 +16,12 @@ class Client:
             print(f'Error while connecting to {url}: {e}')
 
     def run(self):
+        server_port = os.environ.get('SERVER_PORT', 5000)
         for server_address in self.server_addresses:
-            url = f'https://{server_address}:5000'
+            url = f'https://{server_address}:{server_port}'
             self.request(url)
 
 if __name__ == '__main__':
     server_addresses = ['server', 'server.example.com', 'server.local']
     client = Client(server_addresses)
     client.run()
-

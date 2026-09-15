@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fever-client
+  namespace: fever
+spec:
+  template:
+    metadata:
+      labels:
+        app: fever-client
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: client
+          image: fever-client:0.1.0
+          env:
+            - name: SERVER_PORT
+              value: "443"
+          imagePullPolicy: Never
+          volumeMounts:
+            - name: server-certificate
+              mountPath: /app/certs
+              readOnly: true
+      volumes:
+        - name: server-certificate
+          secret:
+            secretName: server-tls
+            items:
+              - key: tls.crt
+                path: server.crt
+  backoffLimit: 0

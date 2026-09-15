@@ -58,6 +58,7 @@ kubectl create secret tls "${SECRET}" \
 
 echo "==> Deploying server"
 kubectl apply -f kubernetes/server-deployment.yaml
+kubectl apply -f kubernetes/server-service.yaml
 
 echo "==> Waiting for server"
 kubectl rollout status deployment/fever-server \
