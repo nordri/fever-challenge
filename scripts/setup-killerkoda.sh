@@ -3,9 +3,11 @@
 set -euo pipefail
 
 NAMESPACE="fever"
-IMAGE="fever-server:0.1.0"
-IMAGE_TAR="/tmp/fever-server.tar"
-SECRET="server-tls"
+SERVER_IMAGE="fever-server:0.1.0"
+CLIENT_IMAGE="fever-client:0.1.0"
+
+SERVER_IMAGE_TAR="/tmp/fever-server.tar"
+CLIENT_IMAGE_TAR="/tmp/fever-client.tar"
 
 echo "==> Generating server certificates"
 make -C server create-certs
@@ -16,11 +18,19 @@ make -C server validate-certs
 echo "==> Building server image"
 make -C server build
 
+echo "==> Building client image"
+make -C client build
+
 echo "==> Exporting Docker image"
-docker save "${IMAGE}" -o "${IMAGE_TAR}"
+docker save "${SERVER_IMAGE}" -o "${SERVER_IMAGE_TAR}"
+docker save "${CLIENT_IMAGE}" -o "${CLIENT_IMAGE_TAR}"
 
 echo "==> Importing image into Kubernetes containerd"
-ctr -n k8s.io images import "${IMAGE_TAR}"
+ctr -n k8s.io images import "${SERVER_IMAGE_TAR}"
+ctr -n k8s.io images import "${CLIENT_IMAGE_TAR}"
+
+echo "==> Verifying Kubernetes images"
+ctr -n k8s.io images list | grep -E 'fever-(server|client)'
 
 echo "==> Creating namespace"
 kubectl create namespace "${NAMESPACE}" \
@@ -45,4 +55,3 @@ kubectl rollout status deployment/fever-server \
 echo
 echo "Killerkoda environment ready."
 kubectl get pods -n "${NAMESPACE}" -o wide
-
