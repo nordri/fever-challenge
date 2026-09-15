@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fever-server
+  namespace: fever
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fever-server
+  template:
+    metadata:
+      labels:
+        app: fever-server
+    spec:
+      containers:
+        - name: server
+          image: fever-server:0.1.0
+          imagePullPolicy: Never
+          ports:
+            - name: https
+              containerPort: 5000
+          volumeMounts:
+            - name: server-tls
+              mountPath: /app/certs
+              readOnly: true
+      volumes:
+        - name: server-tls
+          secret:
+            secretName: server-tls
+            items:
+              - key: tls.crt
+                path: server.crt
+              - key: tls.key
+                path: server.key
