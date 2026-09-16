@@ -1,0 +1,91 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"batch/v1","kind":"Job","metadata":{"annotations":{},"name":"fever-client","namespace":"fever"},"spec":{"backoffLimit":0,"template":{"metadata":{"labels":{"app":"fever-client"}},"spec":{"containers":[{"env":[{"name":"SERVER_PORT","value":"443"}],"image":"fever-client:0.1.0","imagePullPolicy":"Never","name":"client","volumeMounts":[{"mountPath":"/app/certs","name":"server-certificate","readOnly":true}]}],"nodeSelector":{"kubernetes.io/hostname":"controlplane"},"restartPolicy":"Never","tolerations":[{"effect":"NoSchedule","key":"node-role.kubernetes.io/control-plane","operator":"Exists"}],"volumes":[{"name":"server-certificate","secret":{"items":[{"key":"tls.crt","path":"server.crt"}],"secretName":"server-tls"}}]}}}}
+  creationTimestamp: "2026-09-16T09:34:05Z"
+  generation: 1
+  labels:
+    app: fever-client
+    batch.kubernetes.io/controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+    batch.kubernetes.io/job-name: fever-client
+    controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+    job-name: fever-client
+  name: fever-client
+  namespace: fever
+  resourceVersion: "10781"
+  uid: 7af7ad56-9aec-4920-bc4a-394607248053
+spec:
+  backoffLimit: 0
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  selector:
+    matchLabels:
+      batch.kubernetes.io/controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+  suspend: false
+  template:
+    metadata:
+      labels:
+        app: fever-client
+        batch.kubernetes.io/controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+        batch.kubernetes.io/job-name: fever-client
+        controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+        job-name: fever-client
+    spec:
+      containers:
+      - env:
+        - name: SERVER_PORT
+          value: "443"
+        image: fever-client:0.1.0
+        imagePullPolicy: Never
+        name: client
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /app/certs
+          name: server-certificate
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        kubernetes.io/hostname: controlplane
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
+      volumes:
+      - name: server-certificate
+        secret:
+          defaultMode: 420
+          items:
+          - key: tls.crt
+            path: server.crt
+          secretName: server-tls
+status:
+  completionTime: "2026-09-16T09:34:10Z"
+  conditions:
+  - lastProbeTime: "2026-09-16T09:34:10Z"
+    lastTransitionTime: "2026-09-16T09:34:10Z"
+    message: Reached expected number of succeeded pods
+    reason: CompletionsReached
+    status: "True"
+    type: SuccessCriteriaMet
+  - lastProbeTime: "2026-09-16T09:34:10Z"
+    lastTransitionTime: "2026-09-16T09:34:10Z"
+    message: Reached expected number of succeeded pods
+    reason: CompletionsReached
+    status: "True"
+    type: Complete
+  ready: 0
+  startTime: "2026-09-16T09:34:05Z"
+  succeeded: 1
+  terminating: 0
+  uncountedTerminatedPods: {}

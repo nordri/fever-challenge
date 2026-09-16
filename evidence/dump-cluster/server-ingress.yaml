@@ -1,0 +1,56 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"nginx.ingress.kubernetes.io/backend-protocol":"HTTPS"},"name":"fever-server","namespace":"fever"},"spec":{"ingressClassName":"nginx","rules":[{"host":"server","http":{"paths":[{"backend":{"service":{"name":"fever-server","port":{"number":5000}}},"path":"/","pathType":"Prefix"}]}},{"host":"server.example.com","http":{"paths":[{"backend":{"service":{"name":"fever-server","port":{"number":5000}}},"path":"/","pathType":"Prefix"}]}},{"host":"server.local","http":{"paths":[{"backend":{"service":{"name":"fever-server","port":{"number":5000}}},"path":"/","pathType":"Prefix"}]}}],"tls":[{"hosts":["server","server.example.com","server.local"],"secretName":"server-tls"}]}}
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+  creationTimestamp: "2026-09-16T09:26:53Z"
+  generation: 1
+  name: fever-server
+  namespace: fever
+  resourceVersion: "9893"
+  uid: fd5c82b8-7d87-4df0-8ce7-e39221179975
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: server
+    http:
+      paths:
+      - backend:
+          service:
+            name: fever-server
+            port:
+              number: 5000
+        path: /
+        pathType: Prefix
+  - host: server.example.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: fever-server
+            port:
+              number: 5000
+        path: /
+        pathType: Prefix
+  - host: server.local
+    http:
+      paths:
+      - backend:
+          service:
+            name: fever-server
+            port:
+              number: 5000
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - server
+    - server.example.com
+    - server.local
+    secretName: server-tls
+status:
+  loadBalancer:
+    ingress:
+    - ip: 172.30.2.2

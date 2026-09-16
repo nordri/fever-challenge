@@ -1,0 +1,596 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-09-16T09:34:05Z"
+    generateName: fever-client-
+    generation: 1
+    labels:
+      app: fever-client
+      batch.kubernetes.io/controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+      batch.kubernetes.io/job-name: fever-client
+      controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+      job-name: fever-client
+    name: fever-client-5k2nf
+    namespace: fever
+    ownerReferences:
+    - apiVersion: batch/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Job
+      name: fever-client
+      uid: 7af7ad56-9aec-4920-bc4a-394607248053
+    resourceVersion: "10780"
+    uid: 7a38298b-82db-40cf-936e-41de1bd7a6ba
+  spec:
+    containers:
+    - env:
+      - name: SERVER_PORT
+        value: "443"
+      image: fever-client:0.1.0
+      imagePullPolicy: Never
+      name: client
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /app/certs
+        name: server-certificate
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-m78b8
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: controlplane
+    nodeSelector:
+      kubernetes.io/hostname: controlplane
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: server-certificate
+      secret:
+        defaultMode: 420
+        items:
+        - key: tls.crt
+          path: server.crt
+        secretName: server-tls
+    - name: kube-api-access-m78b8
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-16T09:34:10Z"
+      observedGeneration: 1
+      status: "False"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-16T09:34:05Z"
+      observedGeneration: 1
+      reason: PodCompleted
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-16T09:34:09Z"
+      observedGeneration: 1
+      reason: PodCompleted
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-16T09:34:09Z"
+      observedGeneration: 1
+      reason: PodCompleted
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-16T09:34:05Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://4ec64e448aad11e37541edcaf57d0dc6e22ecc986524a2e7bf0b11d2eb15beb5
+      image: docker.io/library/fever-client:0.1.0
+      imageID: sha256:4de1e155c9ed7d9c10f3ae6bd2cdad95315044279aa6c9faaf48fca086f1d37c
+      lastState: {}
+      name: client
+      ready: false
+      resources: {}
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://4ec64e448aad11e37541edcaf57d0dc6e22ecc986524a2e7bf0b11d2eb15beb5
+          exitCode: 0
+          finishedAt: "2026-09-16T09:34:08Z"
+          reason: Completed
+          startedAt: "2026-09-16T09:34:07Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          uid: 0
+      volumeMounts:
+      - mountPath: /app/certs
+        name: server-certificate
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-m78b8
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 172.30.1.2
+    hostIPs:
+    - ip: 172.30.1.2
+    observedGeneration: 1
+    phase: Succeeded
+    podIP: 192.168.0.78
+    podIPs:
+    - ip: 192.168.0.78
+    qosClass: BestEffort
+    resources: {}
+    startTime: "2026-09-16T09:34:05Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-09-16T09:26:30Z"
+    generateName: fever-server-654bbdd989-
+    generation: 1
+    labels:
+      app: fever-server
+      pod-template-hash: 654bbdd989
+    name: fever-server-654bbdd989-577g7
+    namespace: fever
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: fever-server-654bbdd989
+      uid: 958dd984-3b09-4972-9cc4-88c388192093
+    resourceVersion: "9604"
+    uid: f2cce7d6-03db-420a-8fc8-20470f66849d
+  spec:
+    containers:
+    - image: fever-server:0.1.0
+      imagePullPolicy: Never
+      name: server
+      ports:
+      - containerPort: 5000
+        name: https
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /app/certs
+        name: server-tls
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-7q45x
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: node01
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: server-tls
+      secret:
+        defaultMode: 420
+        items:
+        - key: tls.crt
+          path: server.crt
+        - key: tls.key
+          path: server.key
+        secretName: server-tls
+    - name: kube-api-access-7q45x
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-16T09:26:31Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-16T09:26:30Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-16T09:26:31Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-16T09:26:31Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-16T09:26:30Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://b0226ce60fab5ae77f6e92155a836f2046ad07c19c8d8cc3224c939f9b1e5d93
+      image: docker.io/library/fever-server:0.1.0
+      imageID: sha256:0dff024e36383361eaee9460de3aee331844046632c53273426da2a919b7ff2f
+      lastState: {}
+      name: server
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-09-16T09:26:31Z"
+      user:
+        linux:
+          gid: 0
+          supplementalGroups:
+          - 0
+          uid: 0
+      volumeMounts:
+      - mountPath: /app/certs
+        name: server-tls
+        readOnly: true
+        recursiveReadOnly: Disabled
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-7q45x
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 172.30.2.2
+    hostIPs:
+    - ip: 172.30.2.2
+    observedGeneration: 1
+    phase: Running
+    podIP: 192.168.1.70
+    podIPs:
+    - ip: 192.168.1.70
+    qosClass: BestEffort
+    resources: {}
+    startTime: "2026-09-16T09:26:30Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"fever-server","namespace":"fever"},"spec":{"ports":[{"name":"https","port":5000,"protocol":"TCP","targetPort":5000}],"selector":{"app":"fever-server"},"type":"ClusterIP"}}
+    creationTimestamp: "2026-09-16T09:26:30Z"
+    name: fever-server
+    namespace: fever
+    resourceVersion: "9594"
+    uid: 036ffe4a-8db0-4b1d-ad21-75de3afeb645
+  spec:
+    clusterIP: 10.111.226.148
+    clusterIPs:
+    - 10.111.226.148
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: https
+      port: 5000
+      protocol: TCP
+      targetPort: 5000
+    selector:
+      app: fever-server
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"fever-server","namespace":"fever"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"fever-server"}},"template":{"metadata":{"labels":{"app":"fever-server"}},"spec":{"containers":[{"image":"fever-server:0.1.0","imagePullPolicy":"Never","name":"server","ports":[{"containerPort":5000,"name":"https"}],"volumeMounts":[{"mountPath":"/app/certs","name":"server-tls","readOnly":true}]}],"volumes":[{"name":"server-tls","secret":{"items":[{"key":"tls.crt","path":"server.crt"},{"key":"tls.key","path":"server.key"}],"secretName":"server-tls"}}]}}}}
+    creationTimestamp: "2026-09-16T09:26:30Z"
+    generation: 1
+    name: fever-server
+    namespace: fever
+    resourceVersion: "9608"
+    uid: 870aa323-c9f5-471e-a5d8-1909ea29be8c
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: fever-server
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: fever-server
+      spec:
+        containers:
+        - image: fever-server:0.1.0
+          imagePullPolicy: Never
+          name: server
+          ports:
+          - containerPort: 5000
+            name: https
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app/certs
+            name: server-tls
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: server-tls
+          secret:
+            defaultMode: 420
+            items:
+            - key: tls.crt
+              path: server.crt
+            - key: tls.key
+              path: server.key
+            secretName: server-tls
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-09-16T09:26:31Z"
+      lastUpdateTime: "2026-09-16T09:26:31Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-09-16T09:26:30Z"
+      lastUpdateTime: "2026-09-16T09:26:31Z"
+      message: ReplicaSet "fever-server-654bbdd989" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    terminatingReplicas: 0
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-16T09:26:30Z"
+    generation: 1
+    labels:
+      app: fever-server
+      pod-template-hash: 654bbdd989
+    name: fever-server-654bbdd989
+    namespace: fever
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: fever-server
+      uid: 870aa323-c9f5-471e-a5d8-1909ea29be8c
+    resourceVersion: "9605"
+    uid: 958dd984-3b09-4972-9cc4-88c388192093
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: fever-server
+        pod-template-hash: 654bbdd989
+    template:
+      metadata:
+        labels:
+          app: fever-server
+          pod-template-hash: 654bbdd989
+      spec:
+        containers:
+        - image: fever-server:0.1.0
+          imagePullPolicy: Never
+          name: server
+          ports:
+          - containerPort: 5000
+            name: https
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app/certs
+            name: server-tls
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: server-tls
+          secret:
+            defaultMode: 420
+            items:
+            - key: tls.crt
+              path: server.crt
+            - key: tls.key
+              path: server.key
+            secretName: server-tls
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    terminatingReplicas: 0
+- apiVersion: batch/v1
+  kind: Job
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"batch/v1","kind":"Job","metadata":{"annotations":{},"name":"fever-client","namespace":"fever"},"spec":{"backoffLimit":0,"template":{"metadata":{"labels":{"app":"fever-client"}},"spec":{"containers":[{"env":[{"name":"SERVER_PORT","value":"443"}],"image":"fever-client:0.1.0","imagePullPolicy":"Never","name":"client","volumeMounts":[{"mountPath":"/app/certs","name":"server-certificate","readOnly":true}]}],"nodeSelector":{"kubernetes.io/hostname":"controlplane"},"restartPolicy":"Never","tolerations":[{"effect":"NoSchedule","key":"node-role.kubernetes.io/control-plane","operator":"Exists"}],"volumes":[{"name":"server-certificate","secret":{"items":[{"key":"tls.crt","path":"server.crt"}],"secretName":"server-tls"}}]}}}}
+    creationTimestamp: "2026-09-16T09:34:05Z"
+    generation: 1
+    labels:
+      app: fever-client
+      batch.kubernetes.io/controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+      batch.kubernetes.io/job-name: fever-client
+      controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+      job-name: fever-client
+    name: fever-client
+    namespace: fever
+    resourceVersion: "10781"
+    uid: 7af7ad56-9aec-4920-bc4a-394607248053
+  spec:
+    backoffLimit: 0
+    completionMode: NonIndexed
+    completions: 1
+    manualSelector: false
+    parallelism: 1
+    podReplacementPolicy: TerminatingOrFailed
+    selector:
+      matchLabels:
+        batch.kubernetes.io/controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+    suspend: false
+    template:
+      metadata:
+        labels:
+          app: fever-client
+          batch.kubernetes.io/controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+          batch.kubernetes.io/job-name: fever-client
+          controller-uid: 7af7ad56-9aec-4920-bc4a-394607248053
+          job-name: fever-client
+      spec:
+        containers:
+        - env:
+          - name: SERVER_PORT
+            value: "443"
+          image: fever-client:0.1.0
+          imagePullPolicy: Never
+          name: client
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app/certs
+            name: server-certificate
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/hostname: controlplane
+        restartPolicy: Never
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+          operator: Exists
+        volumes:
+        - name: server-certificate
+          secret:
+            defaultMode: 420
+            items:
+            - key: tls.crt
+              path: server.crt
+            secretName: server-tls
+  status:
+    completionTime: "2026-09-16T09:34:10Z"
+    conditions:
+    - lastProbeTime: "2026-09-16T09:34:10Z"
+      lastTransitionTime: "2026-09-16T09:34:10Z"
+      message: Reached expected number of succeeded pods
+      reason: CompletionsReached
+      status: "True"
+      type: SuccessCriteriaMet
+    - lastProbeTime: "2026-09-16T09:34:10Z"
+      lastTransitionTime: "2026-09-16T09:34:10Z"
+      message: Reached expected number of succeeded pods
+      reason: CompletionsReached
+      status: "True"
+      type: Complete
+    ready: 0
+    startTime: "2026-09-16T09:34:05Z"
+    succeeded: 1
+    terminating: 0
+    uncountedTerminatedPods: {}
+kind: List
+metadata:
+  resourceVersion: ""

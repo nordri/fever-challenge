@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"fever-server","namespace":"fever"},"spec":{"ports":[{"name":"https","port":5000,"protocol":"TCP","targetPort":5000}],"selector":{"app":"fever-server"},"type":"ClusterIP"}}
+  creationTimestamp: "2026-09-16T09:26:30Z"
+  name: fever-server
+  namespace: fever
+  resourceVersion: "9594"
+  uid: 036ffe4a-8db0-4b1d-ad21-75de3afeb645
+spec:
+  clusterIP: 10.111.226.148
+  clusterIPs:
+  - 10.111.226.148
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: https
+    port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: fever-server
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

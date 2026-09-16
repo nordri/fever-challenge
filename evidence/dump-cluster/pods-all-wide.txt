@@ -1,0 +1,16 @@
+NAMESPACE            NAME                                        READY   STATUS      RESTARTS      AGE     IP              NODE           NOMINATED NODE   READINESS GATES
+fever                fever-client-5k2nf                          0/1     Completed   0             2m15s   192.168.0.78    controlplane   <none>           <none>
+fever                fever-server-654bbdd989-577g7               1/1     Running     0             9m50s   192.168.1.70    node01         <none>           <none>
+ingress-nginx        ingress-nginx-controller-7c74f8f9d4-njb44   1/1     Running     0             9m48s   192.168.1.237   node01         <none>           <none>
+kube-system          cilium-945dq                                1/1     Running     1 (54m ago)   27d     172.30.2.2      node01         <none>           <none>
+kube-system          cilium-envoy-9j5nw                          1/1     Running     1 (54m ago)   27d     172.30.2.2      node01         <none>           <none>
+kube-system          cilium-envoy-gv9wd                          1/1     Running     2 (54m ago)   27d     172.30.1.2      controlplane   <none>           <none>
+kube-system          cilium-operator-6d46598558-m99l9            1/1     Running     4 (54m ago)   27d     172.30.1.2      controlplane   <none>           <none>
+kube-system          cilium-xdhkr                                1/1     Running     2 (54m ago)   27d     172.30.1.2      controlplane   <none>           <none>
+kube-system          coredns-dbf6bb8dd-9z2vq                     1/1     Running     1 (54m ago)   27d     192.168.0.137   controlplane   <none>           <none>
+kube-system          coredns-dbf6bb8dd-n9zqs                     1/1     Running     1 (54m ago)   27d     192.168.0.102   controlplane   <none>           <none>
+kube-system          etcd-controlplane                           1/1     Running     2 (54m ago)   27d     172.30.1.2      controlplane   <none>           <none>
+kube-system          kube-apiserver-controlplane                 1/1     Running     2 (54m ago)   27d     172.30.1.2      controlplane   <none>           <none>
+kube-system          kube-controller-manager-controlplane        1/1     Running     4 (53m ago)   27d     172.30.1.2      controlplane   <none>           <none>
+kube-system          kube-scheduler-controlplane                 1/1     Running     3 (54m ago)   27d     172.30.1.2      controlplane   <none>           <none>
+local-path-storage   local-path-provisioner-99d95997b-sqxh9      1/1     Running     2 (54m ago)   27d     192.168.0.187   controlplane   <none>           <none>
