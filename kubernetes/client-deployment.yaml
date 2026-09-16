@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fever-client
+  namespace: fever
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fever-client
+  template:
+    metadata:
+      labels:
+        app: fever-client
+    spec:
+      containers:
+        - name: fever-client
+          image: fever-client:0.1.0
+          imagePullPolicy: Never
+          env:
+            - name: SERVER_PORT
+              value: "443"

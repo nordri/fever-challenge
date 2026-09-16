@@ -58,5 +58,18 @@ kubectl rollout status deployment/coredns \
     --namespace kube-system \
     --timeout=120s
 
+echo "==> Deploying client service"
+kubectl apply -f kubernetes/client-deployment.yaml
+
+echo "==> Waiting for client"
+kubectl rollout status deployment/fever-client \
+    --namespace "${NAMESPACE}" \
+    --timeout=120s
+
+echo
+echo "==> Deployment status"
+kubectl get pods -n "${NAMESPACE}" -o wide
+kubectl get pods -n ingress-nginx -o wide
+
 echo
 echo "Deployment completed successfully."

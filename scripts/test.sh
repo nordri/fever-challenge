@@ -3,30 +3,22 @@
 set -euo pipefail
 
 NAMESPACE="fever"
-JOB="fever-client"
+CLIENT_DEPLOYMENT="fever-client"
 
-echo "==> Running client test"
-
-kubectl delete job "${JOB}" \
-    --namespace "${NAMESPACE}" \
-    --ignore-not-found
-
-kubectl apply -f kubernetes/client-job.yaml
-
-echo "==> Waiting for client test"
-
-kubectl wait \
-    --for=condition=complete \
-    job/"${JOB}" \
+echo "==> Checking client deployment"
+kubectl rollout status deployment/"${CLIENT_DEPLOYMENT}" \
     --namespace "${NAMESPACE}" \
     --timeout=120s
 
+echo "==> Waiting for client requests"
+sleep 16
+
 echo
 echo "==> Client output"
-
 kubectl logs \
     --namespace "${NAMESPACE}" \
-    job/"${JOB}"
+    deployment/"${CLIENT_DEPLOYMENT}" \
+    --tail=20
 
 echo
-echo "Client test completed successfully."
+echo "Client test completed."

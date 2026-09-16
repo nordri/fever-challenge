@@ -1,5 +1,5 @@
 import os
-import ssl
+import time
 import requests
 
 class Client:
@@ -17,9 +17,12 @@ class Client:
 
     def run(self):
         server_port = os.environ.get('SERVER_PORT', 5000)
-        for server_address in self.server_addresses:
-            url = f'https://{server_address}:{server_port}'
-            self.request(url)
+
+        while True:
+            for server_address in self.server_addresses:
+                url = f'https://{server_address}:{server_port}'
+                self.request(url)
+                time.sleep(5)
 
 if __name__ == '__main__':
     server_addresses = ['server', 'server.example.com', 'server.local']

@@ -44,10 +44,15 @@ kubectl get ingress fever-server \
     -o yaml \
     > "${DUMP_DIR}/server-ingress.yaml"
 
-kubectl get job fever-client \
+kubectl get deployment fever-client \
     -n "${NAMESPACE}" \
     -o yaml \
-    > "${DUMP_DIR}/client-job.yaml"
+    > "${DUMP_DIR}/client-deployment.yaml"
+
+kubectl logs \
+    -n "${NAMESPACE}" \
+    deployment/fever-client \
+    > "${LOG_DIR}/client.log"
 
 echo "==> Collecting DNS configuration"
 
