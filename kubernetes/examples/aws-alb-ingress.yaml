@@ -1,0 +1,33 @@
+# Example only.
+#
+# This Ingress shows how an AWS Application Load Balancer could be used
+# as the external entry point in front of the NGINX Ingress Controller.
+#
+# Requires AWS Load Balancer Controller to be installed in the cluster.
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-nginx-alb
+  namespace: ingress-nginx
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:123456789012:certificate/example
+    alb.ingress.kubernetes.io/healthcheck-path: /healthz
+    alb.ingress.kubernetes.io/healthcheck-port: "10254"
+    alb.ingress.kubernetes.io/success-codes: "200"
+spec:
+  ingressClassName: alb
+  rules:
+    - host: server.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ingress-nginx-controller
+                port:
+                  number: 80
