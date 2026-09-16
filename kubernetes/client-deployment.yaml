@@ -17,6 +17,19 @@ spec:
         - name: fever-client
           image: fever-client:0.1.0
           imagePullPolicy: Never
+          volumeMounts:
+            - name: server-certificate
+              mountPath: /app/certs
+              readOnly: true
           env:
             - name: SERVER_PORT
               value: "443"
+            - name: PYTHONUNBUFFERED
+              value: "1"
+      volumes:
+        - name: server-certificate
+          secret:
+            secretName: server-tls
+            items:
+              - key: tls.crt
+                path: server.crt
