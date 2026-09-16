@@ -39,26 +39,28 @@ mapfile -t WORKER_NODES < <(
 )
 
 if [[ ${#WORKER_NODES[@]} -eq 0 ]]; then
-    echo "ERROR: No worker nodes found."
-    exit 1
+    echo "WARNING: No worker nodes found."
 fi
 
-for node in "${WORKER_NODES[@]}"; do
-    echo "==> Loading images into ${node}"
+if [[ ${#WORKER_NODES[@]} -gt 0 ]]; then
 
-    ssh "${node}" "ctr -n k8s.io images import -" < "${SERVER_IMAGE_TAR}"
-    ssh "${node}" "ctr -n k8s.io images import -" < "${CLIENT_IMAGE_TAR}"
-done
+    for node in "${WORKER_NODES[@]}"; do
+        echo "==> Loading images into ${node}"
 
-echo "==> Verifying images on control plane"
-ctr -n k8s.io images list | grep -E 'fever-(server|client)'
+        ssh "${node}" "ctr -n k8s.io images import -" < "${SERVER_IMAGE_TAR}"
+        ssh "${node}" "ctr -n k8s.io images import -" < "${CLIENT_IMAGE_TAR}"
+    done
 
-for node in "${WORKER_NODES[@]}"; do
-    echo "==> Verifying images on ${node}"
+    echo "==> Verifying images on control plane"
+    ctr -n k8s.io images list | grep -E 'fever-(server|client)'
 
-    ssh "${node}" \
-        "ctr -n k8s.io images list | grep -E 'fever-(server|client)'"
-done
+    for node in "${WORKER_NODES[@]}"; do
+        echo "==> Verifying images on ${node}"
+
+        ssh "${node}" \
+            "ctr -n k8s.io images list | grep -E 'fever-(server|client)'"
+    done
+fi
 
 echo
 echo "Killerkoda bootstrap completed successfully."
